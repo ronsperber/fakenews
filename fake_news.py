@@ -240,9 +240,13 @@ logging.info(confusion_matrix(y_test, y_pred_vals))
 logging.info(f"Accuracy score: {accuracy_score(y_test,y_pred_vals)}")
 
 # save the model to the Model directory
+# get the path where the models should be saved
 model_dir = configs["model_dir"]
+home_dir = os.path.expanduser("~")
+model_path = os.path.join(home_dir,model_dir)
+# make sure the model path exists or create it
+os.makedirs(output_dir, exist_ok=True)
 model.save(f"{model_dir}/fake_news_model.keras")
-
 # Save tokenizer to the Model directory
 with open(f"{model_dir}/tokenizer.pkl", "wb") as f:
     pickle.dump(vocab_vectorizer, f)
