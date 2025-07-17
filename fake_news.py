@@ -246,7 +246,7 @@ home_dir = os.path.expanduser("~")
 model_path = os.path.join(home_dir,model_dir)
 # make sure the model path exists or create it
 os.makedirs(output_dir, exist_ok=True)
-model.save(f"{model_dir}/fake_news_model.keras")
+model.save(f"{model_path}/fake_news_model.keras")
 # Save tokenizer to the Model directory
-with open(f"{model_dir}/tokenizer.pkl", "wb") as f:
+with open(f"{model_path}/tokenizer.pkl", "wb") as f:
     pickle.dump(vocab_vectorizer, f)
