@@ -1,0 +1,10 @@
+data_dir: Data
+embedding_dim: 50
+lstm_units: 64
+max_vals : [12, 31, 6]
+model_dir: Models
+text_cols:
+- title
+- text
+train_cutoff: 0.75
+val_cutoff: 0.9
