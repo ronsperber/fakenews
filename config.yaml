@@ -2,7 +2,7 @@ data_dir: Data
 embedding_dim: 50
 lstm_units: 64
 max_vals : [12, 31, 6]
-model_dir: Models
+model_dir: ~/models
 text_cols:
 - title
 - text
