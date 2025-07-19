@@ -7,7 +7,7 @@ import numpy as np
 import yaml
 import pickle
 import logging
-from datetime import datetime
+
 from keras.layers import Input, Embedding, LSTM, Dense, Concatenate
 from keras.models import Model
 from keras.layers import TextVectorization
@@ -15,22 +15,8 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from keras.callbacks import EarlyStopping
 
 from utils import *
-# read configs
-configs = yaml.safe_load(open("config.yaml"))
-# get paths where models, log , and history should be stored.
-home_path = os.path.expanduser("~")
-log_dir = os.path.join(home_path,"logs")
-hist_dir = os.path.join(home_path,"history")
-date_str = datetime.now().strftime("%Y-%m-%d")
-model_dir = configs["model_dir"]
-log_path = os.path.join(log_dir,date_str)
-hist_path = os.path.join(hist_dir,date_str)
-model_path = os.path.join(hist_dir,date_str)
-# create the directories if they don't exist
-os.makedirs(log_path, exist_ok=True)
-os.makedirs(hist_path, exist_ok=True)
-os.makedirs(model_path, exist_ok=True)
-def setup_logging(log_file=os.path.join(log_path,'training.log')):
+
+def setup_logging(log_file='training.log'):
     logger = logging.getLogger()
     if not logger.hasHandlers():
         # set level to info
@@ -54,6 +40,8 @@ logger = setup_logging()
 def log_summary(line):
     logging.info(line)  # Sends model.summary() lines to logger
 
+# read configs
+configs = yaml.safe_load(open("config.yaml"))
 data_dir = configs["data_dir"] # get data directory
 fake_path = os.path.join(data_dir, "Fake.csv")
 true_path = os.path.join(data_dir, "True.csv")
@@ -236,7 +224,7 @@ log_training_history( history, logging)
 
 # save history as a json as well
 # Save to JSON
-save_training_history_json(history, os.path.join(hist_path,"history.json"))
+save_training_history_json(history, "history.json")
 
 # look at performance on the test set.
 # get predictions
@@ -252,6 +240,12 @@ logging.info(confusion_matrix(y_test, y_pred_vals))
 logging.info(f"Accuracy score: {accuracy_score(y_test,y_pred_vals)}")
 
 # save the model to the Model directory
+# get the path where the models should be saved
+model_dir = configs["model_dir"]
+home_dir = os.path.expanduser("~")
+model_path = os.path.join(home_dir,model_dir)
+# make sure the model path exists or create it
+os.makedirs(output_dir, exist_ok=True)
 model.save(f"{model_path}/fake_news_model.keras")
 # Save tokenizer to the Model directory
 with open(f"{model_path}/tokenizer.pkl", "wb") as f:
