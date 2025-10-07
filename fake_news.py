@@ -13,6 +13,7 @@ from keras.models import Model
 from keras.layers import TextVectorization
 from sklearn.metrics import confusion_matrix, accuracy_score
 from keras.callbacks import EarlyStopping
+from typing import List
 
 from utils import *
 # read configs
@@ -145,11 +146,11 @@ lstm_units = configs["lstm_units"]    # Number of LSTM units
 
 # Layers of the model
 def create_model(
-        text_cols: list[str] = configs["text_cols"],
+        text_cols: List[str] = configs["text_cols"],
         vocab_size: int = vocab_size,
-        date_features: list[str] = date_features,
+        date_features: List[str] = date_features,
         embedding_dim: int = embedding_dim,
-        lstm_units:int =lstm_units
+        lstm_units:int = lstm_units
 ) -> Model:
     """
     creates and compiled Keras model
